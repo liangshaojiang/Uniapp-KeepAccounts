@@ -6,8 +6,12 @@
 					<view class="cu-avatar round lg margin-left" :style="'background-image:url('+userInfo.HeaderImage+')'">
 						<view class="cu-tag badge" :class="[userInfo.Sex===2?'cuIcon-female bg-pink':'',userInfo.Sex===1?'cuIcon-male bg-blue':'']"></view>
 					</view>
+					<view class="lg margin-sm ">
+						{{userInfo.UserName}}
+					</view>
 				</view>
 				<view class="padding-xs text-lg">
+
 					<!-- Only the guilty need fear me. -->
 				</view>
 			</view>
@@ -77,20 +81,23 @@
 </template>
 
 <script>
-	import { getUserInfo } from "@/api/index/index.js"
+	import {
+		getUserInfo
+	} from "@/api/index/index.js"
 	export default {
 		data() {
 			return {
 				title: 'Hello',
 				userInfo: {
-					HeaderImage:'',
+					HeaderImage: '',
+					UserName:''
 				},
 			}
 		},
 		onLoad() {
 
 		},
-		created(){
+		created() {
 			this.getUserInfo();
 		},
 		methods: {

@@ -17,7 +17,7 @@
 			</view> -->
 			</view>
 		</view>
-		<view class="cu-card case bg-white" :class="'no-card'">
+		<view class="cu-card case bg-white padding-bottom" :class="'no-card'">
 			<view class="shadow">
 				<view class="image" style="background:url('https://jizhang.bayingu.cn/Resources/images/kejishishang.jpg')no-repeat center center;height: 314upx;background-size: 100% 100%;">
 					<view class="flex padding-top-xl justify-center">
@@ -95,7 +95,8 @@
 
 <script>
 	import {
-		getBookList
+		getBookList,
+		deleteBook
 	} from "../../api/book/book.js"
 	export default {
 		data() {
@@ -191,11 +192,17 @@ loadData:false,
 			},
 			Delete: function(index) {
 				console.log(index)
-				uni.showToast({
-					title: '功能开发中',
-					duration: 2000,
-					icon: 'none'
-				});
+				
+				deleteBook({id:index},(res)=>{
+					uni.showToast({
+						title: '删除成功',
+						duration: 2000,
+						icon: 'none'
+					});
+					this.getBookList();
+				},)
+				
+				
 			},
 			getBookList: function() {
 				var that = this;
@@ -210,8 +217,7 @@ loadData:false,
 			},
 			// ListTouch触摸开始
 			ListTouchStart(e) {
-				this.listTouchStart = e.touches[0]
-				console.log("触摸开始 e.touches[0]", e.touches[0])
+				this.listTouchStart = e.touches[0] 
 			},
 
 			// ListTouch计算方向

@@ -50,7 +50,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/about/about",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	// "tabBar": {
 	// 	"color": "#666666",
 	// 	"selectedColor": "#5677FC",

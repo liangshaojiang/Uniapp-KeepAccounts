@@ -21,3 +21,13 @@ export function getBookList(data,success,fail,complete) {
     complete
   })
 }
+export function deleteBook(data,success,fail,complete) {
+  return request({
+    url: '/App/Book/DeleteBook',
+    method: 'Post',
+    data ,
+    success,
+	fail,
+    complete
+  })
+}
