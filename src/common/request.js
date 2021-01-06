@@ -71,21 +71,20 @@ const reLogin = async function(parameter) {
 		//有老的token 
 		await uni.request({
 			method: "post",
-			url: baseUrl + "/App/Account/Login",
-			data: {
-				"Phone": "15617541119",
-				"Password": "123456",
-				"LoginType": 1
-			},
+			url: baseUrl + "/App/Account/RefreshToken?Token="+token,
+			data: {},
 			dataType: 'json',
 		}).then((resData) => { 
-			if (resData[1].statusCode === 200) {
+			
 				let [error, res] = resData;
+			if (resData[1].statusCode === 200&&res.data.Status===1) {
 				uni.setStorageSync('slToken', res.data.Data.Token);
 				request(parameter)
 			} else{
 	    //请求失败跳转到登陆页面
 		uni.hideLoading();
+		let routes = getCurrentPages();
+		uni.navigateTo({url:"/pages/login/login?backurl=/"+routes[routes.length-1].route});
 			} 
 
 		}).catch(error => { 
@@ -102,8 +101,7 @@ const reLogin = async function(parameter) {
 	} else {
 		//没有token 跳转到登陆页面进行登陆
 		uni.hideLoading();
-		let routes = getCurrentPages();
-		console.log(routes)
+		let routes = getCurrentPages(); 
 	    uni.navigateTo({url:"/pages/login/login?backurl=/"+routes[routes.length-1].route});
 	}
 }
