@@ -186,6 +186,7 @@
 			},
 			InputText: function(e) { //输入内容
 				var text = e.currentTarget.dataset.text;
+				this.model.Money+='';
 				if (this.model.Money.length > 14) {
 					uni.showToast({
 						title: '输入金额过大',
@@ -194,6 +195,7 @@
 					});
 					return false;
 				}
+				
 				switch (text) {
 					case '+':
 						{
