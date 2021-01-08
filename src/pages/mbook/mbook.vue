@@ -43,7 +43,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-for="dayItem in bookVm.DayBookList" :key="index">
+		<view v-for="(dayItem,index) in bookVm.DayBookList" :key="index">
 			<view class="cu-bar bg-white solid-bottom">
 				<view class="action">
 					<text class="text-orange">{{dayItem.Day}}</text>
@@ -158,12 +158,10 @@ loadData:false,
 			}
 		},
 		created() {
-			console.log("cesss")
 			this.getBookList();
 		},
 		methods: {
-			alertShow: function() {
-
+			alertShow: function() { 
 				/* uni.showToast({
 				    title: '测试',
 				    duration: 2000,
@@ -205,10 +203,12 @@ loadData:false,
 				
 			},
 			getBookList: function() {
-				var that = this;
+				var that = this; 
+					console.log("getBookList")
 				getBookList({
 					YearMonth: that.query.YearMonth
 				}, res => {
+						console.log("getBookList66",res)
 					if (res.Status === 1) {
 						that.bookVm = res.Data;
 					}

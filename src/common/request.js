@@ -18,6 +18,17 @@ const request = (parameter) => {
 			parameter.header.Authorization = "Bearer " + token;
 		}
 		// parameter.header ? parameter.header.Authorization= 
+		
+	if(process.env.NODE_ENV === 'development'){
+		console.log('网络参数',{
+			method: parameter.method,
+			url: baseUrl + parameter.url,
+			data: parameter.data,
+			header: parameter.header,
+			dataType: 'json',
+		})
+	}	
+		
 		uni.request({
 			method: parameter.method,
 			url: baseUrl + parameter.url,
