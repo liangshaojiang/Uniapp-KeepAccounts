@@ -55,10 +55,6 @@
                 "navigationBarTitleText" : "",
                 "enablePullDownRefresh" : false
             }
-        },
-        {
-            "path" : "App",
-            "style" : {}
         }
     ],
     // "tabBar": {
