@@ -189,17 +189,25 @@ loadData:false,
 				this.getBookList();
 			},
 			Delete: function(index) {
-				console.log(index)
-				
-				deleteBook({id:index},(res)=>{
-					uni.showToast({
-						title: '删除成功',
-						duration: 2000,
-						icon: 'none'
-					});
-					this.getBookList();
-				},)
-				
+				 var that=this;
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				        deleteBook({id:index},(res)=>{
+				        	uni.showToast({
+				        		title: '删除成功',
+				        		duration: 2000,
+				        		icon: 'none'
+				        	});
+				        	that.getBookList();
+				        },)
+				        } else if (res.cancel) {
+				            // console.log('用户点击取消');
+				        }
+				    }
+				});
 				
 			},
 			getBookList: function() {
