@@ -34,19 +34,18 @@
 				}
 			})
 
-			
+
 		},
 		onShow: function() {
-			
-			<!-- #ifdef MP-WEIXIN -->
+          // #ifdef MP-WEIXIN
 			//检查更新
 			const updateManager = wx.getUpdateManager()
-			
+
 			updateManager.onCheckForUpdate(function(res) {
 				// 请求完新版本信息的回调
 				console.log(res.hasUpdate)
 			})
-			
+
 			updateManager.onUpdateReady(function() {
 				uni.showModal({
 					title: '更新提示',
@@ -63,7 +62,7 @@
 			updateManager.onUpdateFailed(function() {
 				// 新版本下载失败
 			}) 
-			<!-- #endif -->
+			 // #endif
 			// console.log('App Show')
 		},
 		onHide: function() {
