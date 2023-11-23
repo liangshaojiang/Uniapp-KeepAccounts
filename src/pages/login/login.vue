@@ -10,25 +10,30 @@
 				<block slot="content">登录</block>
 			</cu-custom>
 			<view class="flex padding justify-center" style="height: 400upx;">
- 
+
 			</view>
 
 			<view class="flex padding justify-center">
 				<view class="cu-avatar round xl bg-yellow iconfont icon-jizhangben text-white"></view>
 			</view>
-			<button class="cu-btn block bg-yellow margin-xl lg text-white " @getuserinfo="userLogin" open-type="getUserInfo">
-				<!-- cuIcon-loading2 -->
+			<!-- 	<button class="cu-btn block bg-yellow margin-xl lg text-white " @getuserinfo="userLogin" open-type="getUserInfo">
+			 
+				<text class="cuIconfont-spin"></text> 授权登录 </button> -->
+
+			<button class="cu-btn block bg-yellow margin-xl lg text-white " @click="userLogin" open-type="getUserInfo">
+
 				<text class="cuIconfont-spin"></text> 授权登录 </button>
+
 		</view>
 		<!-- #endif -->
 		<!-- #ifdef APP-PLUS || H5 -->
-		<view class="applogin margin"  >
+		<view class="applogin margin">
 			<view class="flex padding justify-center" style="height: 200upx;">
-			 
+
 			</view>
-		<view class="flex padding justify-center"> 
-			<view class="cu-avatar round xl bg-yellow iconfont icon-jizhangben text-white"></view> 
-		</view>
+			<view class="flex padding justify-center">
+				<view class="cu-avatar round xl bg-yellow iconfont icon-jizhangben text-white"></view>
+			</view>
 			<form>
 				<view class="cu-form-group margin-top">
 					<view class="title">用户名</view>
@@ -56,6 +61,10 @@
 		oAuthLogin
 	} from '@/api/index/index.js'; //引入需要的api
 
+	import {
+		getUserProfile,
+		silentLogin
+	} from '@/common/loginhelper.js';
 	export default {
 		data() {
 			return {
@@ -85,7 +94,7 @@
 						});
 						uni.redirectTo({
 							url: that.backUrl
-						}); 
+						});
 					} else {
 						uni.showToast({
 							title: res.Msg,
@@ -106,11 +115,11 @@
 					title: '加载中'
 				});
 			},
-			userLogin: function(e) {
+			userLoginOld: function(e) {
 				const that = this;
 				if (e.detail.errMsg === "getUserInfo:ok") {
 					uni.login({
-						success(res) { 
+						success(res) {
 							oAuthLogin({
 								Code: res.code,
 								OAuthType: 1,
@@ -145,6 +154,83 @@
 					});
 				}
 
+			},
+			userLogin: function() {
+				const that = this;
+
+				let pLogin = silentLogin();
+				let pUserInfo = getUserProfile();
+				pLogin.then(res => {
+					pUserInfo.then(userRes=>{
+							console.log("userRes", userRes, res)
+							
+							oAuthLogin({
+								Code: res.code,
+								OAuthType: 1,
+								UserInfo: userRes.userInfo
+							}, res => {
+								if (res.Status === 1) {
+									uni.setStorageSync("slToken", res.Data.Token)
+									uni.redirectTo({
+										url: that.backUrl
+									});
+									uni.showToast({
+										title: '登录成功',
+										duration: 2000,
+										icon: 'none'
+									});
+							
+								} else {
+									uni.showToast({
+										title: res.Msg,
+										duration: 2000,
+										icon: 'none'
+									});
+								}
+							});
+					}).catch(err=>{
+							uni.showToast({
+								title: res.Msg,
+								duration: 2000,
+								icon: 'none'
+							});
+				})
+
+				}).catch(err=>{
+							uni.showToast({
+								title: res.Msg,
+								duration: 2000,
+								icon: 'none'
+							});
+				})
+				// console.log("resresresres", userInfoRes, res)
+
+
+				// oAuthLogin({
+				// 	Code: res.code,
+				// 	OAuthType: 1,
+				// 	UserInfo: userInfoRes.userInfo
+				// }, res => {
+				// 	if (res.Status === 1) {
+				// 		uni.setStorageSync("slToken", res.Data.Token)
+				// 		uni.redirectTo({
+				// 			url: that.backUrl
+				// 		});
+				// 		uni.showToast({
+				// 			title: '登录成功',
+				// 			duration: 2000,
+				// 			icon: 'none'
+				// 		});
+
+				// 	} else {
+				// 		uni.showToast({
+				// 			title: res.Msg,
+				// 			duration: 2000,
+				// 			icon: 'none'
+				// 		});
+				// 	}
+				// });
+
 			}
 
 		}
@@ -156,6 +242,7 @@
 		width: 100%;
 		height: auto;
 	}
+
 	.cu-form-group .title {
 		min-width: calc(4em + 15px);
 	}
